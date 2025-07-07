@@ -17,7 +17,7 @@ class Inventory(models.Model):
     product_id = models.CharField(max_length=75)
     product_name = models.CharField(max_length=200)
     quantity = models.IntegerField(null=True)
-    description = models.CharField(max_length=500, null=True)
+    description = models.CharField(max_length=500, null=True, blank=True)
 
     def __str__(self):
         return self.product_name
@@ -31,5 +31,10 @@ class Order(models.Model):
     )
     supplier = models.CharField(max_length=200)
     datetime = models.DateTimeField(auto_now_add=True, null=True)
-    #product =
+    cost = models.FloatField(null=True)
+    product = models.ForeignKey(Inventory, null=True, on_delete=models.SET_NULL)
+    responder = models.ForeignKey(Responder, null=True, on_delete=models.SET_NULL)
     status = models.CharField(max_length=200, null=True, choices=STATUS)
+
+
+
