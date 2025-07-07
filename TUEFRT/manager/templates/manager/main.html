@@ -1,0 +1,25 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TUEFRT</title>
+    <link rel="stylesheet" type="text/css" href="{% static '/css/main.css' %}">
+</head>
+<body>
+
+    {% include 'manager/navbar.html' %}
+
+    <img src="{% static 'images/github_img.png' %}">
+
+    {% block content %}
+
+    {% endblock %}
+
+    {% include 'manager/footer.html' %}
+    
+</body>
+</html>
