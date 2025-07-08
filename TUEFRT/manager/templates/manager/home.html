@@ -5,4 +5,16 @@
 
 <h1>Home</h1>
 
+<hr>
+{% for res in responders %}
+    <h3>{{res.name}}</h3>
+    <h3>{{res.email}}</h3>
+    <h3>{{res.phone}}</h3>
+    <h3><a href="{% url 'dashboard' res.id %}">View Responder Profile</a></h3>
+    <hr>
+{% endfor %}
+
+<h5>{{total_responders}}</h5>
+
+
 {% endblock %}

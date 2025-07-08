@@ -10,10 +10,6 @@ def landing(request):
 
 
 def home(request):
-    return render(request, 'manager/home.html')
-
-
-def dashboard(request):
     responders = Responder.objects.all()
     total_responders = responders.count()
     context = {
@@ -21,9 +17,17 @@ def dashboard(request):
         'total_responders': total_responders
     }
 
+    return render(request, 'manager/home.html', context)
+
+
+def dashboard(request, pk):
+    agent = Responder.objects.get(id=pk)
+    context = {'responder': agent}
+
     return render(request, 'manager/dashboard.html', context)
 
 
 def inventory(request):
+
     return render(request, 'manager/inventory.html')
 

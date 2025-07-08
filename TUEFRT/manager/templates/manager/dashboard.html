@@ -6,13 +6,9 @@
 <h1>Dashboard</h1>
 
 <hr>
-{% for i in responders %}
-    <h3>{{i.name}}</h3>
-    <h3>{{i.email}}</h3>
-    <h3>{{i.phone}}</h3>
-    <h5>{{total_responders}}</h5>
-{% endfor %}
+    <h3>{{responder.name}}</h3>
+    <h3>{{responder.email}}</h3>
+    <h3>{{responder.phone}}</h3>
 <hr>
-<h5>{{total_responders}}</h5>
 
 {% endblock %}
