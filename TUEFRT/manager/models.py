@@ -36,5 +36,8 @@ class Order(models.Model):
     responder = models.ForeignKey(Responder, null=True, on_delete=models.SET_NULL)
     status = models.CharField(max_length=200, null=True, choices=STATUS)
 
+    def __str__(self):
+        return self.product.name
+
 
 
