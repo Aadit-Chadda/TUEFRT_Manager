@@ -11,4 +11,41 @@
     <h3>{{responder.phone}}</h3>
 <hr>
 
+<form method="get">
+    {{myFilter.form}}
+
+    <button type="submit">Search</button>
+</form>
+
+<hr>
+
+<div>
+	<div>
+		<div>
+			<table>
+				<tr>
+					<th>Supplier</th>
+					<th>Datetime</th>
+					<th>Cost</th>
+					<th>Product</th>
+					<th>Status</th>
+                    <th>Note</th>
+				</tr>
+
+				{% for order in orders %}
+				<tr>
+					<td>{{order.supplier}}</td>
+					<td>{{order.datetime}}</td>
+					<td>{{order.cost}}</td>
+					<td>{{order.product}}</td>
+                    <td>{{order.status}}</td>
+                    <td>{{order.note}}</td>
+				</tr>
+				{% endfor %}
+
+			</table>
+		</div>
+	</div>
+</div>
+
 {% endblock %}

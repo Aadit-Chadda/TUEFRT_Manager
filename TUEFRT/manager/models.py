@@ -35,8 +35,9 @@ class Order(models.Model):
     product = models.ForeignKey(Inventory, null=True, on_delete=models.SET_NULL)
     responder = models.ForeignKey(Responder, null=True, on_delete=models.SET_NULL)
     status = models.CharField(max_length=200, null=True, choices=STATUS)
+    note = models.CharField(max_length=1000, null=True)
 
     def __str__(self):
-        return self.product.name
+        return self.product.product_name
 
 

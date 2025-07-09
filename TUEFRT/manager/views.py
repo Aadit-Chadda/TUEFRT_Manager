@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *
 from .forms import *
+from .filters import *
 
 # Create your views here.
 
@@ -23,7 +24,12 @@ def home(request):
 
 def dashboard(request, pk):
     agent = Responder.objects.get(id=pk)
-    context = {'responder': agent}
+
+    orders = agent.order_set.all()
+    myFilter = OrderFilter(request.GET, queryset=orders)
+    orders = myFilter.qs
+
+    context = {'responder': agent, 'orders': orders, 'myFilter': myFilter}
 
     return render(request, 'manager/dashboard.html', context)
 
