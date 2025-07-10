@@ -12,6 +12,12 @@
         <li>
             <a href="{% url 'inventory' %}">Inventory</a>
         </li>
+        <li>
+            Hello, {{request.user}}
+        </li>
+        <li>
+            <a href="{% url 'logout' %}">logout</a>
+        </li>
     </ul>
 </nav>
 

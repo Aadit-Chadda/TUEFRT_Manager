@@ -43,6 +43,11 @@ def loginPage(request):
     return render(request, 'manager/login.html', context)
 
 
+def logoutUser(request):
+    logout(request)
+    return redirect('login')
+
+
 def landing(request):
     return render(request, 'manager/landing.html')
 
