@@ -6,41 +6,47 @@ from .filters import *
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 
 def registerPage(request):
-    form = CreateUserForm()
+    if request.user.is_authenticated:
+        return redirect('home')
+    else:
+        form = CreateUserForm()
 
-    if request.method == "POST":
-        form = CreateUserForm(request.POST)
-        if form.is_valid():
-            form.save()
-            user = form.cleaned_data.get('username')
-            messages.success(request, 'Account was created for ' + user)
+        if request.method == "POST":
+            form = CreateUserForm(request.POST)
+            if form.is_valid():
+                form.save()
+                user = form.cleaned_data.get('username')
+                messages.success(request, 'Account was created for ' + user)
 
-            return redirect('login')
+                return redirect('login')
 
-    context = {'form': form}
-    return render(request, 'manager/register.html', context)
+        context = {'form': form}
+        return render(request, 'manager/register.html', context)
 
 
 def loginPage(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    else:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = authenticate(request, username=username, password=password)
 
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                messages.info(request, "Username or Password is incorrect")
 
-        if user is not None:
-            login(request, user)
-            return redirect('home')
-        else:
-            messages.info(request, "Username or Password is incorrect")
-
-    context = {}
-    return render(request, 'manager/login.html', context)
+        context = {}
+        return render(request, 'manager/login.html', context)
 
 
 def logoutUser(request):
@@ -52,6 +58,7 @@ def landing(request):
     return render(request, 'manager/landing.html')
 
 
+@login_required(login_url='login')
 def home(request):
     responders = Responder.objects.all()
     total_responders = responders.count()
@@ -63,6 +70,7 @@ def home(request):
     return render(request, 'manager/home.html', context)
 
 
+@login_required(login_url='login')
 def dashboard(request, pk):
     agent = Responder.objects.get(id=pk)
 
@@ -75,11 +83,13 @@ def dashboard(request, pk):
     return render(request, 'manager/dashboard.html', context)
 
 
+@login_required(login_url='login')
 def inventory(request):
 
     return render(request, 'manager/inventory.html')
 
 
+@login_required(login_url='login')
 def createOrder(request):
     form = OrderForm()
     context = {'form': form}
@@ -95,6 +105,7 @@ def createOrder(request):
     return render(request, 'manager/order_form.html', context)
 
 
+@login_required(login_url='login')
 def updateOrder(request, pk):
     order = Order.objects.get(id=pk)
     form = OrderForm(instance=order)
@@ -110,6 +121,7 @@ def updateOrder(request, pk):
     return render(request, 'manager/order_form.html', context)
 
 
+@login_required(login_url='login')
 def deleteOrder(request, pk):
     order = Order.objects.get(id=pk)
     if request.method == 'POST':
