@@ -1,9 +1,17 @@
+:root
+{
+    --primary-color: #b85038;
+    --accent-color: #342c6b;
+    --text-color: #191a23;
+    --bg-color: #f3f3f3;
+}
+
 body{
-    background-color: rgb(232, 226, 226);
+    background-color: var(--bg-color);
 }
 
 h2
 {
-    color: blue;
+    color: var(--primary-color);
     text-align: center;
 }
