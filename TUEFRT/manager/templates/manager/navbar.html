@@ -9,9 +9,11 @@
         <li>
             <a href="{% url 'home' %}">Home</a>
         </li>
+        {% if request.user.is_staff %}
         <li>
             <a href="{% url 'inventory' %}">Inventory</a>
         </li>
+        {% endif %}
         <li>
             Hello, {{request.user}}
         </li>
