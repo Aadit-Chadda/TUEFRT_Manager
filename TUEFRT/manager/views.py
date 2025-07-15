@@ -26,8 +26,13 @@ def registerPage(request):
                 user = form.save()
                 username = form.cleaned_data.get('username')
 
-                group = Group.objects.get(name='customer')
+                group = Group.objects.get(name='responder')
                 user.groups.add(group)
+
+                Responder.objects.create(
+                    user=user,
+                    name=user.first_name + " " + user.last_name,
+                )
 
                 messages.success(request, 'Account was created for ' + username)
 
@@ -89,8 +94,12 @@ def dashboard(request, pk):
     return render(request, 'manager/dashboard.html', context)
 
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['responder'])
 def userPage(request):
-    context = {}
+    orders = request.user.responder.order_set.all()
+
+    context = {'orders': orders}
     return render(request, 'manager/user.html', context)
 
 
