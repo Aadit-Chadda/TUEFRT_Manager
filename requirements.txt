@@ -78,6 +78,7 @@ Django==4.0
 django-allauth==0.47.0
 django-bootstrap4==21.2
 django-environ==0.8.1
+django-filter
 dnspython==2.7.0
 docutils @ file:///opt/concourse/worker/volumes/live/c87e10af-317d-45cb-7142-3d02053858ee/volume/docutils_1620827978243/work
 entrypoints==0.3

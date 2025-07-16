@@ -9,7 +9,7 @@ class Responder(models.Model):
     name = models.CharField(max_length=200, null=True)
     phone = models.CharField(max_length=10, null=True)
     email = models.CharField(max_length=250, null=True)
-    profile_pic = models.ImageField(null=True, blank=True)
+    profile_pic = models.ImageField(default="defaultProfilePicture.jpg", null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

@@ -1,0 +1,23 @@
+{% extends 'manager/main.html' %}
+{% load static %}
+{% block content %}
+
+<br>
+
+<div>
+    <a href="{% url 'home' %}">Back to Profile</a>
+    <hr>
+    <h3>Accoiunt Settings</h3>
+    <hr>
+    <img src="{{request.user.responder.profile_pic.url}}" alt="pfp">
+</div>
+<div>
+    <form method="POST" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.as_p}}
+        
+        <input type="submit" name="Update Information">
+    </form>
+</div>
+
+{% endblock %}

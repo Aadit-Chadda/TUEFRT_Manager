@@ -104,6 +104,20 @@ def userPage(request):
 
 
 @login_required(login_url='login')
+def accountSettings(request):
+    responder = request.user.responder
+    form = CustomerForm(instance=responder)
+
+    if request.method == 'POST':
+        form = CustomerForm(request.POST, request.FILES, instance=responder)
+        if form.is_valid():
+            form.save()
+
+    context = {'form': form}
+    return render(request, 'manager/account_settings.html', context)
+
+
+@login_required(login_url='login')
 def inventory(request):
 
     return render(request, 'manager/inventory.html')
