@@ -21,7 +21,7 @@ class Inventory(models.Model):
 
     def __str__(self):
         return self.product_name
-
+# NOTE: Add another field "type" is the order of type 'msk', 'respiratory' etc...
 
 class Order(models.Model):
     STATUS = (

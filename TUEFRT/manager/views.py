@@ -72,7 +72,7 @@ def home(request):
 
 @login_required(login_url='login')
 def dashboard(request, pk):
-    agent = Responder.objects.get(id=pk)
+    agent = Responder.objects.get(id=pk) # responder class
 
     orders = agent.order_set.all()
     myFilter = OrderFilter(request.GET, queryset=orders)
@@ -85,8 +85,10 @@ def dashboard(request, pk):
 
 @login_required(login_url='login')
 def inventory(request):
+    items = Inventory.objects.all()
 
-    return render(request, 'manager/inventory.html')
+    context = {'Item' : items}   
+    return render(request, 'manager/inventory.html', context)
 
 
 @login_required(login_url='login')
@@ -104,6 +106,20 @@ def createOrder(request):
 
     return render(request, 'manager/order_form.html', context)
 
+@login_required(login_url='login')
+def editOrder(request): 
+    form = EditForm() # Calls EditForm in form.py
+    context = {'form': form}
+
+    if request.method == 'POST':
+        print("\nPrinting Post: ")
+        print(request.POST)
+        form = EditForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+
+    return render(request, 'manager/edit_order.html', context) 
 
 @login_required(login_url='login')
 def updateOrder(request, pk):
@@ -130,3 +146,6 @@ def deleteOrder(request, pk):
 
     context = {'item': order}
     return render(request, 'manager/delete.html', context)
+
+# Bcos this is the views this is where my business logic
+# of requesting information goes??

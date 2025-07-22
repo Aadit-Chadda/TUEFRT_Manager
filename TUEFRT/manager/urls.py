@@ -13,6 +13,7 @@ urlpatterns = [
     path('inventory/', views.inventory, name='inventory'),
 
     path('create_order/', views.createOrder, name="create_order"),
+    path('edit_order/', views.editOrder, name="edit_order"), # Not quite sure what I should do here. This path is called by inventory.html
     path('update_order/<str:pk>/', views.updateOrder, name="update_order"),
     path('delete_order/<str:pk>/', views.deleteOrder, name='delete_order'),
 

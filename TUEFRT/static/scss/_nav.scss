@@ -1,0 +1,40 @@
+// mobile first.
+nav {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  #logo {
+      width: 4em;
+      margin: 0;
+  }
+
+  ul {
+    display: flex;
+    gap: 0.40em;
+    padding: 0;
+    //border: 2px solid blue;
+    width: 75%;
+    align-items: center;
+    justify-content: space-between;
+
+    li {
+      list-style-type: none;
+      
+
+      a {
+        text-decoration: none;  
+      }
+
+      #userIcon {
+        width: 2em;
+        //border: 2px solid red;
+      }
+    }
+
+
+
+  }
+
+}
+
+// media query pixel for desktop should be: 768px.

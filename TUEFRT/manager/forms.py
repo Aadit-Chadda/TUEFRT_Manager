@@ -10,7 +10,11 @@ class OrderForm(ModelForm):
         model = Order
         fields = '__all__'  # Include all of the Order fields in the form
 
-
+class EditForm(ModelForm):
+    class Meta:
+        model: Inventory
+        fields = ['product_name', 'quantity']
+        
 class CreateUserForm(UserCreationForm):
     class Meta:
         model = User
