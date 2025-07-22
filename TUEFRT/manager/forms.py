@@ -8,7 +8,7 @@ from .models import *
 class OrderForm(ModelForm):
     class Meta:
         model = Order
-        fields = '__all__'  # Include all of the Order fields in the form
+        fields = "__all__"  # Include all of the Order fields in the form
 
 
 class CreateUserForm(UserCreationForm):

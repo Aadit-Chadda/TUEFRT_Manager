@@ -32,13 +32,12 @@ class Order(models.Model):
         ('Delivered', 'Delivered'),
         ('Re-stocked', 'Re-stocked'),
     )
-    supplier = models.CharField(max_length=200)
+    supplier = models.CharField(max_length=200, null=True)
     datetime = models.DateTimeField(auto_now_add=True, null=True)
     cost = models.FloatField(null=True)
     product = models.ForeignKey(Inventory, null=True, on_delete=models.SET_NULL)
-    responder = models.ForeignKey(Responder, null=True, on_delete=models.SET_NULL)
     status = models.CharField(max_length=200, null=True, choices=STATUS)
-    note = models.CharField(max_length=1000, null=True)
+    note = models.CharField(max_length=1000, null=True, blank=True)
 
     def __str__(self):
         return self.product.product_name

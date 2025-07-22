@@ -126,7 +126,6 @@ def inventory(request):
 @login_required(login_url='login')
 def createOrder(request):
     form = OrderForm()
-    context = {'form': form}
 
     if request.method == 'POST':
         print("\nPrinting Post: ")
@@ -135,6 +134,8 @@ def createOrder(request):
         if form.is_valid():
             form.save()
             return redirect('/')
+
+    context = {'form': form}
 
     return render(request, 'manager/order_form.html', context)
 
