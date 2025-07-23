@@ -107,10 +107,12 @@ def createOrder(request):
     return render(request, 'manager/order_form.html', context)
 
 @login_required(login_url='login')
-def editOrder(request): 
+def editOrder(request, product_id):
     form = EditForm() # Calls EditForm in form.py
-    context = {'form': form}
+    item = Inventory.objects.get(product_id=product_id)
+    context = {'form': form, 'item': item}
 
+    # just some logic for request type.
     if request.method == 'POST':
         print("\nPrinting Post: ")
         print(request.POST)
@@ -118,8 +120,7 @@ def editOrder(request):
         if form.is_valid():
             form.save()
             return redirect('/')
-
-    return render(request, 'manager/edit_order.html', context) 
+    return render(request, 'manager/edit_order.html', context)
 
 @login_required(login_url='login')
 def updateOrder(request, pk):

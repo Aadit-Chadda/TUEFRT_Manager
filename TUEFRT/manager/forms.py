@@ -12,8 +12,8 @@ class OrderForm(ModelForm):
 
 class EditForm(ModelForm):
     class Meta:
-        model: Inventory
-        fields = ['product_name', 'quantity']
+        model = Inventory
+        fields = ['quantity']
         
 class CreateUserForm(UserCreationForm):
     class Meta:

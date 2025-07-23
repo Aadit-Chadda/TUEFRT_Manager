@@ -2,10 +2,12 @@
 {% load static %}
 {% block content %}
 
-<form action="" method="POST">
+<h3>{{item.product_name}}</h3>
+
+<form class="edit-order" action="" method="POST">
     {% csrf_token %}
     {{form}}
-
+       
     <input type="submit" name="submit">
 
 </form>

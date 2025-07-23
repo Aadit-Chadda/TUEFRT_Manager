@@ -1,9 +1,13 @@
-body{
-    background-color: rgb(232, 226, 226);
+body {
+  background-color: red;
 }
 
-h2
-{
-    color: blue;
-    text-align: center;
+body {
+  background-color: rgb(232, 226, 226);
 }
+
+h2 {
+  color: blue;
+  text-align: center;
+}
+
