@@ -9,6 +9,7 @@ class OrderForm(ModelForm):
     class Meta:
         model = Order
         fields = "__all__"  # Include all of the Order fields in the form
+        exclude = ['responder']
 
 
 class CreateUserForm(UserCreationForm):

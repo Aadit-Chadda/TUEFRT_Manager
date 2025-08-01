@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *
 from .forms import *
+from django.forms import *
 from .filters import *
 from .decorators import unauthenticated_user, allowed_users, admin_only
 from django.contrib.auth.forms import UserCreationForm
@@ -124,18 +125,23 @@ def inventory(request):
 
 
 @login_required(login_url='login')
-def createOrder(request):
-    form = OrderForm()
+def createOrder(request, pk):
+    OrderFromSet = inlineformset_factory(Responder, Order, fields=('supplier', 'product', 'cost', 'quantity', 'status', 'note'), extra=1)
+    responder = Responder.objects.get(id=pk)
+    formset = OrderFromSet(queryset=Order.objects.none(), instance=responder)
+    #form = OrderForm()
 
     if request.method == 'POST':
-        print("\nPrinting Post: ")
-        print(request.POST)
+        # print("\nPrinting Post: ")
+        # print(request.POST)
         form = OrderForm(request.POST)
+        formset = OrderFromSet(request.POST, instance=responder)
         if form.is_valid():
+
             form.save()
             return redirect('/')
 
-    context = {'form': form}
+    context = {'form': formset}
 
     return render(request, 'manager/order_form.html', context)
 
