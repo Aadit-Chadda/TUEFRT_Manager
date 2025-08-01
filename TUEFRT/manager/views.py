@@ -10,7 +10,6 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
-
 def registerPage(request):
     if request.user.is_authenticated:
         return redirect('home')
@@ -108,18 +107,24 @@ def createOrder(request):
 
 @login_required(login_url='login')
 def editOrder(request, product_id):
-    form = EditForm() # Calls EditForm in form.py
     item = Inventory.objects.get(product_id=product_id)
-    context = {'form': form, 'item': item}
 
     # just some logic for request type.
     if request.method == 'POST':
-        print("\nPrinting Post: ")
-        print(request.POST)
-        form = EditForm(request.POST)
+        # request.POST is the data submitted by user.
+        form = EditForm(request.POST, originalQuantity=item.quantity)
         if form.is_valid():
-            form.save()
-            return redirect('/')
+            # valid data dictionary. All validation handled in forms.py
+            # If the user is teamlead, they should be able to also add items.
+            reduce_by = form.cleaned_data['reduce_by']
+            item.quantity -= reduce_by
+            item.save()
+
+            return redirect('/inventory')
+    else:
+        form = EditForm()
+
+    context = {'form': form, 'item': item}
     return render(request, 'manager/edit_order.html', context)
 
 @login_required(login_url='login')
