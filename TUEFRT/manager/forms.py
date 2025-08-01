@@ -14,8 +14,17 @@ class OrderForm(ModelForm):
 # Can't really add notes until later tho.
 
 class EditForm(forms.Form):
-    reduce_by = forms.IntegerField(min_value=1)
-
+    reduce_by = forms.IntegerField(min_value=1, label='Amount used')
+    # opt_note will be saved within UpdatedInventory table.
+    opt_note = forms.CharField(
+        required=False,
+        max_length=255,
+        label='Optional notes',
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Type of incident, reason, etc...',
+            'class' : 'edit-inventory-note'
+        })
+    )
     # forms init method needs to be overrided for it to 
     # know how to handle the second argument "originalQuantity"
     # *args are just og positional arguments like request.POST and 

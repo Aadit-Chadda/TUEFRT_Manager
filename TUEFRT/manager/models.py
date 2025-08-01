@@ -33,6 +33,7 @@ class UpdatedInventory(models.Model):
     QuantityUsed = models.IntegerField(default=1,
         validators=[MinValueValidator(1), MaxValueValidator(100)]
     )
+    notes = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return f"update {self.update_id} ({self.product}) on {self.date_created.date()}"
