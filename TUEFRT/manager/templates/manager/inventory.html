@@ -11,6 +11,14 @@
     <option value="resp">Respiratory</option>
 </select>
 
+<!-- 
+    Can have django querySet to dictate rendering order. 
+    If user wants to sort by type, performs query set then rearranges Item dict.
+
+    How do I get it so that when I click on the button in my dropdown filter, It preforms
+    the query set. Better question: how to have an event trigger django?
+-->
+
 {% for items in Item %}
 <div class="product">
     <div class="product-left">
