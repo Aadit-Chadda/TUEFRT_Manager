@@ -129,7 +129,7 @@ def createOrder(request, pk):
     OrderFromSet = inlineformset_factory(Responder, Order, fields=('supplier', 'product', 'cost', 'quantity', 'status', 'note'), extra=1)
     responder = Responder.objects.get(id=pk)
     formset = OrderFromSet(queryset=Order.objects.none(), instance=responder)
-    #form = OrderForm()
+    # form = OrderForm()
 
     if request.method == 'POST':
         # print("\nPrinting Post: ")
