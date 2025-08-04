@@ -9,9 +9,15 @@
         <li>
             <a href="{% url 'home' %}">Home</a>
         </li>
+        {% if request.user.is_staff %}
         <li>
             <a href="{% url 'inventory' %}">Inventory</a>
         </li>
+        {% else %}
+        <li>
+            <a href="{% url 'account' %}">Settings</a>
+        </li>
+        {% endif %}
         <li>
             <a href="{% url 'logout' %}">
                 <img id="userIcon" src="{% static 'images/user.svg'%}">

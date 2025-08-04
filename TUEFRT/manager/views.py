@@ -2,15 +2,19 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *
 from .forms import *
+from django.forms import *
 from .filters import *
+from .decorators import unauthenticated_user, allowed_users, admin_only
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
 
 # Create your views here.
 
 
+@unauthenticated_user
 def registerPage(request):
     if request.user.is_authenticated:
         return redirect('home')
@@ -20,9 +24,18 @@ def registerPage(request):
         if request.method == "POST":
             form = CreateUserForm(request.POST)
             if form.is_valid():
-                form.save()
-                user = form.cleaned_data.get('username')
-                messages.success(request, 'Account was created for ' + user)
+                user = form.save()
+                username = form.cleaned_data.get('username')
+
+                group = Group.objects.get(name='responder')
+                user.groups.add(group)
+
+                Responder.objects.create(
+                    user=user,
+                    name=user.first_name + " " + user.last_name,
+                )
+
+                messages.success(request, 'Account was created for ' + username)
 
                 return redirect('login')
 
@@ -30,23 +43,21 @@ def registerPage(request):
         return render(request, 'manager/register.html', context)
 
 
+@unauthenticated_user
 def loginPage(request):
-    if request.user.is_authenticated:
-        return redirect('home')
-    else:
-        if request.method == 'POST':
-            username = request.POST.get('username')
-            password = request.POST.get('password')
-            user = authenticate(request, username=username, password=password)
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
 
-            if user is not None:
-                login(request, user)
-                return redirect('home')
-            else:
-                messages.info(request, "Username or Password is incorrect")
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.info(request, "Username or Password is incorrect")
 
-        context = {}
-        return render(request, 'manager/login.html', context)
+    context = {}
+    return render(request, 'manager/login.html', context)
 
 
 def logoutUser(request):
@@ -59,6 +70,7 @@ def landing(request):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin', 'responder'])
 def home(request):
     responders = Responder.objects.all()
     total_responders = responders.count()
@@ -83,6 +95,29 @@ def dashboard(request, pk):
     return render(request, 'manager/dashboard.html', context)
 
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['responder'])
+def userPage(request):
+    orders = request.user.responder.order_set.all()
+
+    context = {'orders': orders}
+    return render(request, 'manager/user.html', context)
+
+
+@login_required(login_url='login')
+def accountSettings(request):
+    responder = request.user.responder
+    form = CustomerForm(instance=responder)
+
+    if request.method == 'POST':
+        form = CustomerForm(request.POST, request.FILES, instance=responder)
+        if form.is_valid():
+            form.save()
+
+    context = {'form': form}
+    return render(request, 'manager/account_settings.html', context)
+
+
 @login_required(login_url='login')
 def inventory(request):
     items = Inventory.objects.all()
@@ -92,17 +127,23 @@ def inventory(request):
 
 
 @login_required(login_url='login')
-def createOrder(request):
-    form = OrderForm()
-    context = {'form': form}
+def createOrder(request, pk):
+    OrderFromSet = inlineformset_factory(Responder, Order, fields=('supplier', 'product', 'cost', 'quantity', 'status', 'note'), extra=1)
+    responder = Responder.objects.get(id=pk)
+    formset = OrderFromSet(queryset=Order.objects.none(), instance=responder)
+    # form = OrderForm()
 
     if request.method == 'POST':
-        print("\nPrinting Post: ")
-        print(request.POST)
+        # print("\nPrinting Post: ")
+        # print(request.POST)
         form = OrderForm(request.POST)
+        formset = OrderFromSet(request.POST, instance=responder)
         if form.is_valid():
+
             form.save()
             return redirect('/')
+
+    context = {'form': formset}
 
     return render(request, 'manager/order_form.html', context)
 

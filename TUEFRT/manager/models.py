@@ -1,12 +1,15 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
 
 class Responder(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, null=True)
     phone = models.CharField(max_length=10, null=True)
     email = models.CharField(max_length=250, null=True)
+    profile_pic = models.ImageField(default="defaultProfilePicture.jpg", null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -29,15 +32,16 @@ class Order(models.Model):
         ('Delivered', 'Delivered'),
         ('Re-stocked', 'Re-stocked'),
     )
-    supplier = models.CharField(max_length=200)
+    supplier = models.CharField(max_length=200, null=True)
     datetime = models.DateTimeField(auto_now_add=True, null=True)
     cost = models.FloatField(null=True)
-    product = models.ForeignKey(Inventory, null=True, on_delete=models.SET_NULL)
-    responder = models.ForeignKey(Responder, null=True, on_delete=models.SET_NULL)
+    product = models.ForeignKey(Inventory, null=True, on_delete=models.CASCADE, blank=True)
+    quantity = models.IntegerField(null=True, blank=True)
+    responder = models.ForeignKey(Responder, to_field='user', null=True, on_delete=models.CASCADE, blank=True)
     status = models.CharField(max_length=200, null=True, choices=STATUS)
-    note = models.CharField(max_length=1000, null=True)
+    note = models.CharField(max_length=1000, null=True, blank=True)
 
     def __str__(self):
-        return self.product.product_name
+        return str(self.product.product_name)
 
 
