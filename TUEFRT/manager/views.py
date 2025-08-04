@@ -118,6 +118,11 @@ def editOrder(request, product_id):
             # If the user is teamlead, they should be able to also add items.
             reduce_by = form.cleaned_data['reduce_by']
             item.quantity -= reduce_by
+
+            # create instance of UpdateHistory. Need product, responder, quantity, note.
+            optional_note = form.cleaned_data['opt_note']
+            #history = UpdatedInventory(product=product_id, responder=)
+
             item.save()
 
             return redirect('/inventory')

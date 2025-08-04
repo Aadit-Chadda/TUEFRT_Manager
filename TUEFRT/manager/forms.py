@@ -14,6 +14,15 @@ class OrderForm(ModelForm):
 # Can't really add notes until later tho.
 
 class EditForm(forms.Form):
+
+    PACK_CHOICES = (
+         ("1", "One"),
+         ("2", "Two"),
+         ("3", "Three"),
+    )
+
+    responder = forms.ChoiceField(choices=[]) #populated in __init__
+    packNum = forms.ChoiceField(choices=PACK_CHOICES, label="Pack Number")
     reduce_by = forms.IntegerField(min_value=1, label='Amount used')
     # opt_note will be saved within UpdatedInventory table.
     opt_note = forms.CharField(
@@ -25,14 +34,17 @@ class EditForm(forms.Form):
             'class' : 'edit-inventory-note'
         })
     )
+
+
     # forms init method needs to be overrided for it to 
     # know how to handle the second argument "originalQuantity"
     # *args are just og positional arguments like request.POST and 
     # **kwargs are extra keyword arguments like originalQuantity.
-    
+
     def __init__(self, *args, originalQuantity=None, **kwargs):
         super().__init__(*args, **kwargs) # django does normal form setup.
         self.originalQuantity = originalQuantity # saves custom value for validation.
+        self.fields["responder"].choices = Responder.objects.all().values_list("id","name")
 
     # clean_variable is a django naming convention for validation.
     def clean_reduce_by(self):
