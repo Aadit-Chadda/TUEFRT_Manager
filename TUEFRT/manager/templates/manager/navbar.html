@@ -1,7 +1,7 @@
 {% load static %}
 
-<h1>Navbar</h1>
-<nav>
+<nav> <!-- why the jinja static before loading images? -->
+    <img id="logo" src ="{% static 'images/tuefrtLogo.svg' %}">
     <ul>
         <li>
             <a href="{% url 'landing' %}">Landing</a>
@@ -19,10 +19,9 @@
         </li>
         {% endif %}
         <li>
-            Hello, {{request.user}}
-        </li>
-        <li>
-            <a href="{% url 'logout' %}">logout</a>
+            <a href="{% url 'logout' %}">
+                <img id="userIcon" src="{% static 'images/user.svg'%}">
+            </a>
         </li>
     </ul>
 </nav>

@@ -1,0 +1,27 @@
+@use "inventory.scss";
+@use "nav.scss";
+
+:root
+{  
+    --primary-color: #b85038;
+    --accent-color: #342c6b;
+    --text-color: #191a23;
+    --bg-color: #f3f3f3;
+    font-family: "Space Grotesk", "Roboto", "sans-serif";
+}
+
+a{
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+body{
+  background-color: var(--bg-color);
+}
+
+h2{
+    color: var(--primary-color);
+    text-align: center;
+}
+
+

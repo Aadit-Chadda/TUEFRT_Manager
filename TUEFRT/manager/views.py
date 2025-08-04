@@ -13,7 +13,6 @@ from django.contrib.auth.models import Group
 
 # Create your views here.
 
-
 @unauthenticated_user
 def registerPage(request):
     if request.user.is_authenticated:
@@ -84,7 +83,7 @@ def home(request):
 
 @login_required(login_url='login')
 def dashboard(request, pk):
-    agent = Responder.objects.get(id=pk)
+    agent = Responder.objects.get(id=pk) # responder class
 
     orders = agent.order_set.all()
     myFilter = OrderFilter(request.GET, queryset=orders)
@@ -120,8 +119,10 @@ def accountSettings(request):
 
 @login_required(login_url='login')
 def inventory(request):
+    items = Inventory.objects.all()
 
-    return render(request, 'manager/inventory.html')
+    context = {'Item' : items}   
+    return render(request, 'manager/inventory.html', context)
 
 
 @login_required(login_url='login')
@@ -145,6 +146,32 @@ def createOrder(request, pk):
 
     return render(request, 'manager/order_form.html', context)
 
+@login_required(login_url='login')
+def editOrder(request, product_id):
+    item = Inventory.objects.get(product_id=product_id)
+
+    # just some logic for request type.
+    if request.method == 'POST':
+        # request.POST is the data submitted by user.
+        form = EditForm(request.POST, originalQuantity=item.quantity)
+        if form.is_valid():
+            # valid data dictionary. All validation handled in forms.py
+            # If the user is teamlead, they should be able to also add items.
+            reduce_by = form.cleaned_data['reduce_by']
+            item.quantity -= reduce_by
+
+            # create instance of UpdateHistory. Need product, responder, quantity, note.
+            optional_note = form.cleaned_data['opt_note']
+            #history = UpdatedInventory(product=product_id, responder=)
+
+            item.save()
+
+            return redirect('/inventory')
+    else:
+        form = EditForm()
+
+    context = {'form': form, 'item': item}
+    return render(request, 'manager/edit_order.html', context)
 
 @login_required(login_url='login')
 def updateOrder(request, pk):
@@ -171,3 +198,6 @@ def deleteOrder(request, pk):
 
     context = {'item': order}
     return render(request, 'manager/delete.html', context)
+
+# Bcos this is the views this is where my business logic
+# of requesting information goes??

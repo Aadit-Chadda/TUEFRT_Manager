@@ -1,0 +1,71 @@
+// Mobile view first. 
+:root {
+  --primary: #B85038;
+}
+
+#search-bar {
+  border: 1px solid gray;
+  border-radius: 0.75em;
+  padding: 0.75em;
+  padding-right: 4em;
+} 
+
+#search-bar:focus {
+  border-color: #aaa;
+  -webkit-box-shadow: 0 1px 1px #bbb inset;
+  -moz-box-shadow: 0 1px 1px #bbb inset;
+  box-shadow: 0 1px 1px #bbb inset;
+  outline: 0;
+}
+
+#search-filter {
+  border-radius: 0.75em;
+  padding: 0.75em;
+  width: 6em;
+  background-color: white;
+}
+
+.product {
+  background-color: #D9D9D9;
+  display: flex;
+  //border: red 2px solid;
+  padding: 1.5em 1em 1.5em 1em; 
+  border-radius: 1em;
+  margin: 1em 0 1em 0;
+  width: 85%;
+  justify-content: space-between;
+  align-items: center;
+
+  h3 {
+    margin: 0;
+    font-weight: normal;
+  }
+
+  .product-left {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #edit-order{
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    width: 30%;
+    background-color: var(--primary-color);
+    padding: 0.5em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    border-radius: 0.75em;
+
+    h3{
+      color: white;
+      font-weight: 550;
+    }
+
+    img {
+      width: 2em;
+    }
+  }
+
+}
+

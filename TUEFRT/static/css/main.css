@@ -1,17 +1,113 @@
-:root
-{
-    --primary-color: #b85038;
-    --accent-color: #342c6b;
-    --text-color: #191a23;
-    --bg-color: #f3f3f3;
+:root {
+  --primary: #B85038;
 }
 
-body{
-    background-color: var(--bg-color);
+#search-bar {
+  border: 1px solid gray;
+  border-radius: 0.75em;
+  padding: 0.75em;
+  padding-right: 4em;
 }
 
-h2
-{
-    color: var(--primary-color);
-    text-align: center;
+#search-bar:focus {
+  border-color: #aaa;
+  -webkit-box-shadow: 0 1px 1px #bbb inset;
+  -moz-box-shadow: 0 1px 1px #bbb inset;
+  box-shadow: 0 1px 1px #bbb inset;
+  outline: 0;
 }
+
+#search-filter {
+  border-radius: 0.75em;
+  padding: 0.75em;
+  width: 6em;
+  background-color: white;
+}
+
+.product {
+  background-color: #D9D9D9;
+  display: flex;
+  padding: 1.5em 1em 1.5em 1em;
+  border-radius: 1em;
+  margin: 1em 0 1em 0;
+  width: 85%;
+  justify-content: space-between;
+  align-items: center;
+}
+.product h3 {
+  margin: 0;
+  font-weight: normal;
+}
+.product .product-left {
+  display: flex;
+  flex-direction: column;
+}
+.product #edit-order {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  width: 30%;
+  background-color: var(--primary-color);
+  padding: 0.5em;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+  border-radius: 0.75em;
+}
+.product #edit-order h3 {
+  color: white;
+  font-weight: 550;
+}
+.product #edit-order img {
+  width: 2em;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+nav #logo {
+  width: 4em;
+  margin: 0;
+}
+nav ul {
+  display: flex;
+  gap: 0.4em;
+  padding: 0;
+  width: 75%;
+  align-items: center;
+  justify-content: space-between;
+}
+nav ul li {
+  list-style-type: none;
+}
+nav ul li a {
+  text-decoration: none;
+}
+nav ul li #userIcon {
+  width: 2em;
+}
+
+:root {
+  --primary-color: #b85038;
+  --accent-color: #342c6b;
+  --text-color: #191a23;
+  --bg-color: #f3f3f3;
+  font-family: "Space Grotesk", "Roboto", "sans-serif";
+}
+
+a {
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+body {
+  background-color: var(--bg-color);
+}
+
+h2 {
+  color: var(--primary-color);
+  text-align: center;
+}
+
+/*# sourceMappingURL=main.css.map */
