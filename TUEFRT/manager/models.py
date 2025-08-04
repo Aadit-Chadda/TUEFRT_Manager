@@ -15,6 +15,7 @@ class Responder(models.Model):
     def __str__(self):
         return self.name
 
+
 # Create a updateInventory model. See how that would work in our db.
 
 class Inventory(models.Model):
@@ -27,19 +28,21 @@ class Inventory(models.Model):
         return self.product_name
 # NOTE: Add another field "type" is the order of type 'msk', 'respiratory' etc...
 
+
 # NOTE: Will be utilized in the dashboard.
 class UpdatedInventory(models.Model):
     update_id = models.BigAutoField(primary_key=True)
     date_created = models.DateTimeField(auto_now_add=True)
-    product = models.ForeignKey(Inventory, on_delete=models.CASCADE)
-    responder = models.ManyToManyField(Responder)
+    product = models.ForeignKey(Inventory, on_delete=models.CASCADE, null=True)
+    responder = models.OneToOneField(Responder, on_delete=models.CASCADE, null=True)
     QuantityUsed = models.IntegerField(default=1,
-        validators=[MinValueValidator(1), MaxValueValidator(100)]
+    validators=[MinValueValidator(1), MaxValueValidator(100)]
     )
     notes = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
-        return f"update {self.update_id} ({self.product}) on {self.date_created.date()}"
+        return str(f"update {self.update_id} ({self.product}) on {self.date_created.date()}")
+
 
 class Order(models.Model):
     STATUS = (
