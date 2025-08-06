@@ -35,13 +35,15 @@ class UpdatedInventory(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     product = models.ForeignKey(Inventory, on_delete=models.CASCADE, null=True)
     responder = models.OneToOneField(Responder, on_delete=models.CASCADE, null=True)
-    QuantityUsed = models.IntegerField(default=1,
+    packNum = models.IntegerField(null=True)
+    quantityUsed = models.IntegerField(default=1,
     validators=[MinValueValidator(1), MaxValueValidator(100)]
     )
     notes = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
-        return str(f"update {self.update_id} ({self.product}) on {self.date_created.date()}")
+        return f"Update {self.update_id} ({self.product}), {self.responder} (Pack: {self.packNum}) on {self.date_created.date()}"
+
 
 
 class Order(models.Model):

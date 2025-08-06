@@ -84,12 +84,23 @@ def home(request):
 @login_required(login_url='login')
 def dashboard(request, pk):
     agent = Responder.objects.get(id=pk) # responder class
+    currUser = request.user
 
     orders = agent.order_set.all()
     myFilter = OrderFilter(request.GET, queryset=orders)
     orders = myFilter.qs
-
-    context = {'responder': agent, 'orders': orders, 'myFilter': myFilter}
+    
+    # If current user has superuser permissions 
+    '''
+    if currUser.is_superuser(): 
+        history = UpdatedInventory.objects.all()
+    else: 
+        history = UpdatedInventory.objects.filter(responder=pk)
+    '''
+    
+    history = UpdatedInventory.objects.all()
+    
+    context = {'responder': agent, 'orders': orders, 'myFilter': myFilter, 'history' : history}
 
     return render(request, 'manager/dashboard.html', context)
 
@@ -124,7 +135,6 @@ def inventory(request):
     context = {'Item' : items}   
     return render(request, 'manager/inventory.html', context)
 
-
 @login_required(login_url='login')
 def createOrder(request, pk):
     OrderFromSet = inlineformset_factory(Responder, Order, fields=('supplier', 'product', 'cost', 'quantity', 'status', 'note'), extra=1)
@@ -158,13 +168,21 @@ def editOrder(request, product_id):
             # valid data dictionary. All validation handled in forms.py
             # If the user is teamlead, they should be able to also add items.
             reduce_by = form.cleaned_data['reduce_by']
-            item.quantity -= reduce_by
-
-            # create instance of UpdateHistory. Need product, responder, quantity, note.
+            responderId = form.cleaned_data['responder']
+            packNum = form.cleaned_data['packNum']
             optional_note = form.cleaned_data['opt_note']
-            #history = UpdatedInventory(product=product_id, responder=)
+            #responder = Responder.objects.get(name = responderName) 
+            # get current time, packNum and optNote. Then create the object.
+            
+            item.quantity -= reduce_by
+            responder = Responder.objects.get(pk = responderId)
+            # create instance of UpdateHistory. Need product, responder, quantity, note.
+            # need to get responder information from the form.
 
+            history = UpdatedInventory(product=item, responder=responder, packNum = packNum, quantityUsed = reduce_by, notes = optional_note)
+            
             item.save()
+            history.save()
 
             return redirect('/inventory')
     else:

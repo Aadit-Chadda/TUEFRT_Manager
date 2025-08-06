@@ -11,6 +11,12 @@
     <h3>{{responder.phone}}</h3>
 <hr>
 
+{% for pastEdits in history %}
+    <p>{{pastEdits.date_created}}</p>
+    <p>{{pastEdits.responder}}</p>
+    <p>{{pastEdits.product}}</p>
+{% endfor %}
+
 <form method="get">
     {{myFilter.form}}
 

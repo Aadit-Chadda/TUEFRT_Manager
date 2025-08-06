@@ -1,13 +1,12 @@
 {% load static %}
 
 <nav> <!-- why the jinja static before loading images? -->
+    <a href="{% url 'home' %}">
     <img id="logo" src ="{% static 'images/tuefrtLogo.svg' %}">
+    </a>
     <ul>
         <li>
-            <a href="{% url 'landing' %}">Landing</a>
-        </li>
-        <li>
-            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'home' %}">Dashboard</a>
         </li>
         {% if request.user.is_staff %}
         <li>
