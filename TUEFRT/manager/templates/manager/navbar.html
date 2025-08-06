@@ -5,10 +5,10 @@
     <img id="logo" src ="{% static 'images/tuefrtLogo.svg' %}">
     </a>
     <ul>
-        <li>
-            <a href="{% url 'home' %}">Dashboard</a>
-        </li>
         {% if request.user.is_staff %}
+        <li>
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+        </li>
         <li>
             <a href="{% url 'inventory' %}">Inventory</a>
         </li>
@@ -16,8 +16,8 @@
         <li>
             <a href="{% url 'account' %}">Settings</a>
         </li>
-        {% endif %}
-        <li>
+        {% endif %} 
+        <li> <!-- Should be a dropdown menu when clicking on the img. Also leads to settings. -->
             <a href="{% url 'logout' %}">
                 <img id="userIcon" src="{% static 'images/user.svg'%}">
             </a>

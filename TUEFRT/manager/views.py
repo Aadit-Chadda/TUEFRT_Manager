@@ -41,7 +41,6 @@ def registerPage(request):
         context = {'form': form}
         return render(request, 'manager/register.html', context)
 
-
 @unauthenticated_user
 def loginPage(request):
     if request.method == 'POST':
@@ -80,11 +79,12 @@ def home(request):
 
     return render(request, 'manager/home.html', context)
 
-
 @login_required(login_url='login')
-def dashboard(request, pk):
-    agent = Responder.objects.get(id=pk) # responder class
-    currUser = request.user
+def dashboard(request):
+    # instead of passing pk by url, display based on current user's matched responder. Maybe???
+    # issue rn is there's no passed pk when clicking on navbar. Maybe we can pass a pk from template??
+
+    agent = Responder.objects.get(user = request.user) # responder class
 
     orders = agent.order_set.all()
     myFilter = OrderFilter(request.GET, queryset=orders)
