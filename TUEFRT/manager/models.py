@@ -19,10 +19,20 @@ class Responder(models.Model):
 # Create a updateInventory model. See how that would work in our db.
 
 class Inventory(models.Model):
+    TYPE = (
+        ('Miscellaneous', 'Miscellaneous'),
+        ('OPA','OPA'),
+        ('MSK','MSK'),
+        ('Oxygen','Oxygen'),
+        ('Gauze','Gauze'),
+        ('PPE', 'PPE'),
+    )
     product_id = models.CharField(max_length=75)
     product_name = models.CharField(max_length=200)
     quantity = models.IntegerField(null=True)
     description = models.CharField(max_length=500, null=True, blank=True)
+    optimalStock = models.IntergerField(null=True)
+    itemType = models.CharField(null=True, choices=TYPE) 
 
     def __str__(self):
         return self.product_name
