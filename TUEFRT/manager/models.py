@@ -31,7 +31,7 @@ class Inventory(models.Model):
     product_name = models.CharField(max_length=200)
     quantity = models.IntegerField(null=True)
     description = models.CharField(max_length=500, null=True, blank=True)
-    optimalStock = models.IntergerField(null=True)
+    optimalStock = models.IntegerField(null=True, blank=True)
     itemType = models.CharField(null=True, choices=TYPE) 
 
     def __str__(self):
