@@ -119,8 +119,10 @@ def accountSettings(request):
 
 @login_required(login_url='login')
 def inventory(request):
+    items = Inventory.objects.all()
 
-    return render(request, 'manager/inventory.html')
+    context = {'Item' : items}   
+    return render(request, 'manager/inventory.html', context)
 
 
 @login_required(login_url='login')
@@ -138,6 +140,23 @@ def createOrder(request):
     context = {'form': form}
 
     return render(request, 'manager/order_form.html', context)
+
+
+@login_required(login_url='login')
+def editOrder(request, product_id):
+    form = EditForm() # Calls EditForm in form.py
+    item = Inventory.objects.get(product_id=product_id)
+    context = {'form': form, 'item': item}
+
+    # just some logic for request type.
+    if request.method == 'POST':
+        print("\nPrinting Post: ")
+        print(request.POST)
+        form = EditForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+    return render(request, 'manager/edit_order.html', context)
 
 
 @login_required(login_url='login')

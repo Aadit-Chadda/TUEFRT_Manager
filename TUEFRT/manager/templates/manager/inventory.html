@@ -3,7 +3,29 @@
 
 {% block content %}
 
-<h1>Inventory</h1>
+<input type="text" id="search-bar" placeholder="Search for supplies...">
+<label for="supply-filter"></label>
+<select name="supply-typs" id="search-filter">
+    <option value=""></option>
+    <option value="msk">MSK</option>
+    <option value="resp">Respiratory</option>
+</select>
 
+{% for items in Item %}
+<div class="product">
+    <div class="product-left">
+        <h3 class="prod_name">{{items.product_name}}</h3>
+        <h3>stock: {{items.quantity}}</h3>
+    </div>
 
+    <a href="{% url 'edit_order' items.product_id %}" id="edit-order">
+        <img src="{% static 'images/pencil.svg' %}" alt="Pencil Icon">
+        <h3>Edit</h3>
+    </a>
+</div>
+{% endfor %}
+<!-- Once figure out how to connect orders along with inventory then add last restock -->
+<!-- Also in models, need to display item imgs. -->
+
+<script src="{% static 'js/inventorySearch.js' %}"></script>
 {% endblock %}

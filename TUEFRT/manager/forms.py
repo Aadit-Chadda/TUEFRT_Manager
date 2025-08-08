@@ -22,3 +22,8 @@ class CustomerForm(ModelForm):
         model = Responder
         fields = "__all__"
         exclude = ['user']
+
+class EditForm(ModelForm):
+    class Meta:
+        model = Inventory
+        fields = ['quantity']

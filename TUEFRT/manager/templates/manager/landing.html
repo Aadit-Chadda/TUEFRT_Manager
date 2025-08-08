@@ -3,8 +3,22 @@
 
 {% block content %}
 
-<h1>Landing</h1>
+<h1>Welcome to the TUEFRT Inventory System </h1>
 
-<img src="{% static 'images/github_img.png' %}">
+<img src="{% static 'images/TuefrtBanner.jpeg' %}">
+
+<h2>Efficient. Organized. Ready.</h2>
+
+<p>This platform helps TUEFRT team members manage medical inventory with ease and accuracy.</p>
+<p>Key features include:</p>
+<ul>
+    <li>View and manage inventory items</li>
+    <li>Update stock levels</li>
+    <li>Track supply orders</li>
+</ul>
+
+<div class="button-container">
+  <a href="{% url 'login' %}" target="_blank" class="button-class">Log in</a>
+</div>
 
 {% endblock %}
