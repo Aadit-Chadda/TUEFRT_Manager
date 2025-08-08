@@ -4,7 +4,7 @@ from .models import *
 from .forms import *
 from django.forms import *
 from .filters import *
-from .decorators import unauthenticated_user, allowed_users, admin_only
+from .decorators import unauthenticated_user, allowed_users, admin_only, authenticated_user
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -83,7 +83,7 @@ def home(request):
 
 @login_required(login_url='login')
 def dashboard(request, pk):
-    agent = Responder.objects.get(id=pk) # responder class
+    agent = Responder.objects.get(id=pk)  # responder class
 
     orders = agent.order_set.all()
     myFilter = OrderFilter(request.GET, queryset=orders)
@@ -121,10 +121,12 @@ def accountSettings(request):
 def inventory(request):
     items = Inventory.objects.all()
 
-    context = {'Item' : items}   
+    context = {'Item': items}
     return render(request, 'manager/inventory.html', context)
 
 
+@authenticated_user
+@allowed_users(['admin'])
 @login_required(login_url='login')
 def createOrder(request, pk):
     OrderFromSet = inlineformset_factory(Responder, Order, fields=('supplier', 'product', 'cost', 'quantity', 'status', 'note'), extra=1)
@@ -135,14 +137,14 @@ def createOrder(request, pk):
     if request.method == 'POST':
         # print("\nPrinting Post: ")
         # print(request.POST)
-        form = OrderForm(request.POST)
+        # form = OrderForm(request.POST)
         formset = OrderFromSet(request.POST, instance=responder)
-        if form.is_valid():
+        if formset.is_valid():
 
-            form.save()
+            formset.save()
             return redirect('/')
 
-    context = {'form': formset}
+    context = {'formset': formset}
 
     return render(request, 'manager/order_form.html', context)
 

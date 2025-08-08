@@ -12,7 +12,19 @@ def unauthenticated_user(view_func):
     return wrapper_func
 
 
+def authenticated_user(view_func):
+    def wrapper_func(request, *args, **kwargs):
+        url_user_pk = kwargs.get('pk')
+        if request.user.pk == int(url_user_pk):
+            return view_func(request, *args, **kwargs)
+        else:
+            return HttpResponse('You are not authorized to view this page')
+
+    return wrapper_func
+
+
 def allowed_users(allowed_roles=[]):
+    # list of users: ['admin', 'manager', 'responder']
     def decorator(view_func):
         def wrapper_func(request, *args, **kwargs):
             group = None

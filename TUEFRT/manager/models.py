@@ -22,6 +22,7 @@ class Inventory(models.Model):
     product_id = models.CharField(max_length=75)
     product_name = models.CharField(max_length=200)
     quantity = models.IntegerField(null=True)
+    ideal_quantity = models.IntegerField(null=True)
     description = models.CharField(max_length=500, null=True, blank=True)
 
     def __str__(self):
