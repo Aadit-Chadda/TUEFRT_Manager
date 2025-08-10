@@ -18,7 +18,7 @@ filter.addEventListener('change', function() {
             item.style.display = 'none';
         }
     })
-});
+}); // current issue is that everything is hidden when 'All' is toggled and search is performed.
 
 searchFilter.addEventListener('input', function(event) {
     const searchTerm = event.target.value.toLowerCase();
@@ -28,7 +28,7 @@ searchFilter.addEventListener('input', function(event) {
         const itemText = item.textContent.toLowerCase();
         const itemType = item.getAttribute('data-type');
 
-        if(itemText.includes(searchTerm) && itemType === globalSelectedType) {
+        if(itemText.includes(searchTerm) && itemType === globalSelectedType || itemText.includes(searchTerm) && globalSelectedType === 'All') {
             item.style.display = 'flex';
         } else {
             item.style.display = 'none';
